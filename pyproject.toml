@@ -9,6 +9,7 @@ python = "^3.9"
 "discord.py" = "^1.7.3"
 gpiozero = "^1.6.2"
 PyYAML = "^6.0"
+pigpio = "^1.78"
 
 [tool.poetry.dev-dependencies]
 
