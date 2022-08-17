@@ -1,13 +1,19 @@
 import discord
 import os
+import yaml            
 from gpiozero import LED
+                       
+
+def config():          
+    with open("config.yaml", 'r') as stream:
+        return yaml.safe_load(stream)
 
 
 class BotClient(discord.Client):
 
     def set_led(self, n):
         self.led = LED(n)
-
+                       
     def set_admin_id(self, admin_id):
         self.admin_id = admin_id
 
@@ -40,10 +46,11 @@ class BotClient(discord.Client):
 
 
 def start():
+    cfg = config()
     client = BotClient()
     client.set_led(18)
-    client.set_admin_id(os.environ['DISCORD_ADMIN'])
-    client.run(os.environ['DISCORD_TOKEN'])
+    client.set_admin_id(cfg['discord']['admin'])
+    client.run(cfg['discord']['token'])
 
 
 start()
