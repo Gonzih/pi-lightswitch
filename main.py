@@ -2,6 +2,7 @@ import discord
 import os
 import yaml            
 from gpiozero import LED
+from time import sleep
                        
 
 def config():          
@@ -13,12 +14,19 @@ class BotClient(discord.Client):
 
     def set_led(self, n):
         self.led = LED(n)
+
+    def blink(self):
+        self.led.on()
+        sleep(3)
+        self.led.off()
+        sleep(1)
                        
     def set_admin_id(self, admin_id):
         self.admin_id = admin_id
 
     async def on_ready(self):
         print(f"Logged on as {self.user}")
+        self.blink()
 
     async def on_message(self, message):
         print(f"Message from {message.author}: {message.content}")
@@ -49,6 +57,7 @@ def start():
     cfg = config()
     client = BotClient()
     client.set_led(18)
+    client.blink()
     client.set_admin_id(cfg['discord']['admin'])
     client.run(cfg['discord']['token'])
 
